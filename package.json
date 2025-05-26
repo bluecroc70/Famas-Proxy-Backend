@@ -1,12 +1,22 @@
 {
   "name": "famas-proxy-backend",
   "version": "1.0.0",
+  "description": "Ultraviolet proxy backend for Render",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "@titaniumnetwork-dev/ultraviolet": "^1.0.0"
-  }
+    "@titaniumnetwork-dev/ultraviolet": "^1.0.0",
+    "@mercuryworkshop/epoxy-transport": "^1.0.0",
+    "@mercuryworkshop/bare-mux": "^1.0.0",
+    "wisp-server-node": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [],
+  "author": "Fama",
+  "license": "MIT"
 }
