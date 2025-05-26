@@ -11,9 +11,18 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 try {
+  // Middleware: parse JSON bodies (optional, useful if you extend API)
+  app.use(express.json());
+
+  // Simple logging middleware for every request
+  app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
+    next();
+  });
+
   // Initialize Ultraviolet middleware with options if needed
   const uv = ultraviolet({
-    // You can add options here if you want, e.g.,
+    // Example options:
     // allowCookies: true,
     // blacklist: ['example.com'],
   });
@@ -21,7 +30,7 @@ try {
   // Use Ultraviolet as middleware at root path
   app.use('/', uv);
 
-  // Basic route to confirm server is up (optional)
+  // Basic route to confirm server is up
   app.get('/ping', (req, res) => {
     res.send('pong');
   });
