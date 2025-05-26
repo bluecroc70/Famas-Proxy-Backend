@@ -1,14 +1,16 @@
-const { Ultraviolet } = require("@titaniumnetwork-dev/ultraviolet");
+const express = require('express');
+// IMPORTANT: Ultraviolet is exported as default, so access `.default`
+const ultraviolet = require('@titaniumnetwork-dev/ultraviolet').default;
 
-// You can customize the port Render assigns using environment variable PORT
-const port = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 10000;
 
-const uv = new Ultraviolet({
-  // optional: you can specify a config here if you want
-  // e.g. userAgent, cache settings, etc.
-  // leave empty for defaults
+const uv = ultraviolet({
+  // put any Ultraviolet options here if needed
 });
 
-uv.listen(port).then(() => {
-  console.log(`Ultraviolet proxy server running on port ${port}`);
+app.use('/', uv);
+
+app.listen(PORT, () => {
+  console.log(`Proxy server running on port ${PORT}`);
 });
