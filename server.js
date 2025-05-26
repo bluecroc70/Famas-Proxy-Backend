@@ -1,46 +1,54 @@
-// Load Express framework
+// server.js
 const express = require('express');
+const { createServer } = require('http');
+const { join } = require('path');
+const { hostname } = require('os');
 
-// Import Ultraviolet middleware; access `.default` as per package docs
-const ultravioletModule = require('@titaniumnetwork-dev/ultraviolet');
-
-// Defensive check for .default export
-const ultraviolet = ultravioletModule.default || ultravioletModule;
+// Import paths from Ultraviolet and related packages
+const { uvPath } = require('@titaniumnetwork-dev/ultraviolet');
+const { epoxyPath } = require('@mercuryworkshop/epoxy-transport');
+const { baremuxPath } = require('@mercuryworkshop/bare-mux/node');
+const wisp = require('wisp-server-node');
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 8080;
 
-try {
-  // Middleware: parse JSON bodies (optional, useful if you extend API)
-  app.use(express.json());
+// Serve static files
+app.use(express.static('public'));
+app.use('/uv/', express.static(uvPath));
+app.use('/epoxy/', express.static(epoxyPath));
+app.use('/baremux/', express.static(baremuxPath));
 
-  // Simple logging middleware for every request
-  app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
-    next();
-  });
+// Health check route
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
 
-  // Initialize Ultraviolet middleware with options if needed
-  const uv = ultraviolet({
-    // Example options:
-    // allowCookies: true,
-    // blacklist: ['example.com'],
-  });
+// Handle 404 errors
+app.use((req, res) => {
+  res.status(404).sendFile(join(__dirname, 'public', '404.html'));
+});
 
-  // Use Ultraviolet as middleware at root path
-  app.use('/', uv);
+// Create and configure HTTP server
+const server = createServer((req, res) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  app(req, res);
+});
 
-  // Basic route to confirm server is up
-  app.get('/ping', (req, res) => {
-    res.send('pong');
-  });
+// Handle WebSocket upgrades for Wisp
+server.on('upgrade', (req, socket, head) => {
+  if (req.url.endsWith('/wisp/')) {
+    wisp.routeRequest(req, socket, head);
+  } else {
+    socket.end();
+  }
+});
 
-  // Start server and listen on PORT
-  app.listen(PORT, () => {
-    console.log(`Proxy server running on port ${PORT}`);
-  });
-} catch (error) {
-  // Log and exit if there's a critical failure on startup
-  console.error('Failed to start server:', error);
-  process.exit(1);
-}
+// Start the server
+server.listen(PORT, () => {
+  const address = server.address();
+  console.log('Proxy server running on:');
+  console.log(`\thttp://localhost:${address.port}`);
+  console.log(`\thttp://${hostname()}:${address.port}`);
+});
