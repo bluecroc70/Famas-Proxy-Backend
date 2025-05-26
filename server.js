@@ -13,8 +13,8 @@ const wisp = require('wisp-server-node');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Serve static files
-app.use(express.static('public'));
+// Serve static files from the 'docs' folder
+app.use(express.static('docs'));
 app.use('/uv/', express.static(uvPath));
 app.use('/epoxy/', express.static(epoxyPath));
 app.use('/baremux/', express.static(baremuxPath));
@@ -24,12 +24,12 @@ app.get('/ping', (req, res) => {
   res.send('pong');
 });
 
-// Handle 404 errors
+// Handle 404 errors - serve 404.html from docs folder
 app.use((req, res) => {
-  res.status(404).sendFile(join(__dirname, 'public', '404.html'));
+  res.status(404).sendFile(join(__dirname, 'docs', '404.html'));
 });
 
-// Create and configure HTTP server
+// Create and configure HTTP server with COOP & COEP headers
 const server = createServer((req, res) => {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
