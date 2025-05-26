@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fama's Proxy</title>
+  <link rel="icon" href="https://www.gstatic.com/classroom/logo_square_rounded.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+  <div id="homeScreen" class="screen flex-center">
+    <h1>Fama's Proxy</h1>
+    <input id="urlInput" type="text" placeholder="Enter URL or search term" />
+    <button id="goButton">Go</button>
+
+    <label class="dark-toggle">
+      <input type="checkbox" id="darkModeToggle" checked />
+      Dark Mode
+    </label>
+
+    <div class="footer-links">
+      <a id="githubLink" href="https://github.com/bluecroc70/Famas-Proxy" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" />
+      </a>
+      <a id="panicLink" href="https://classroom.google.com/" target="_blank" rel="noopener noreferrer">
+        <img src="https://northeastsecuritysolutions.com/wp-content/uploads/2024/12/panic-button-1375952_640-1.png" alt="Panic Button" />
+      </a>
+    </div>
+  </div>
+
+  <div id="proxyScreen" class="screen" style="display: none;">
+    <div id="browserBar">
+      <button id="homeBtn">🏠</button>
+      <input type="text" id="proxyUrl" placeholder="Enter a URL or search" />
+      <button id="goBtn">→</button>
+    </div>
+    <webview id="proxyWebview" style="width: 100%; height: 100%; border: none;"></webview>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+/* Reset & base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body,
+html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #111; /* Dark mode bg default */
+  color: #eee;            /* Dark mode text */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+body.light {
+  background-color: #f0f0f0; /* Light mode bg */
+  color: #222;               /* Light mode text */
+}
+
+/* Root CSS variables for light/dark */
+body.dark {
+  --bar-bg: #222;
+  --input-bg: #333;
+  --btn-bg: #3a3a3a;
+  --btn-hover-bg: #555;
+  --footer-icon-filter: invert(1);
+}
+body.light {
+  --bar-bg: #eee;
+  --input-bg: #fff;
+  --btn-bg: #666;
+  --btn-hover-bg: #888;
+  --footer-icon-filter: invert(0);
+}
+
+/* Centered home screen */
+.screen {
+  width: 100%;
+  height: 100vh;
+}
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Inputs */
+input[type="text"] {
+  font-size: 18px;
+  padding: 10px;
+  width: 320px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: var(--input-bg);
+  color: inherit;
+  outline: none;
+  user-select: text;
+  transition: background-color 0.3s, color 0.3s;
+}
+input[type="text"]::placeholder {
+  color: #999;
+}
+
+/* Buttons */
+button {
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  padding: 10px 16px;
+  background-color: var(--btn-bg);
+  color: white;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+button:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+/* Dark mode toggle label */
+.dark-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  user-select: none;
+  color: inherit;
+}
+.dark-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Footer links (GitHub + Panic) */
+.footer-links {
+  margin-top: 12px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+.footer-links a#githubLink img,
+.footer-links a#panicLink img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  filter: var(--footer-icon-filter);
+  transition: filter 0.3s;
+}
+.footer-links a#panicLink img {
+  filter: none; /* Panic button is original colors */
+}
+
+/* Remove link underline */
+.footer-links a {
+  text-decoration: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+  input[type="text"] {
+    width: 90vw;
+  }
+}
