@@ -1,0 +1,15 @@
+{
+  "name": "famas-proxy-backend",
+  "version": "1.0.0",
+  "description": "Ultraviolet proxy backend for Fama's Proxy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@titaniumnetwork-dev/ultraviolet": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
